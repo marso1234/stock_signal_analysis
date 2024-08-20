@@ -1,0 +1,7 @@
+cache
+ouput
+.conda
+.ipynb_checkpoints/
+__pycache__/
+script/analysis/prediction/cache
+script/analysis/prediction/neural_network
