@@ -23,6 +23,18 @@ class Backtest():
         print("Analysing Strategy...")
         self.strategy.analyze()
 
+    def get_is_moving_stop_profit(self):
+        try:
+            return self.strategy.moving_stop_profit
+        except:
+            return False
+
+    def get_is_moving_stop_loss(self):
+        try:
+            return self.strategy.moving_stop_loss
+        except:
+            return False
+
     def simulate(self, symbol=None, verbose=False, allow_repeat=False, df=None):
         if symbol and df:
             raise("simulate should provide either symbol or df!")
@@ -34,6 +46,9 @@ class Backtest():
         else:
             raise("simulate should provide either symbol or df!")
         
+        is_moving_profit = self.get_is_moving_stop_profit()
+        is_moving_loss = self.get_is_moving_stop_loss()
+
         record = []
         if symbol == 'NASDAQ' or symbol == 'SP500':
             return self.analyze_all(verbose=verbose)
@@ -65,6 +80,11 @@ class Backtest():
                 current_sell_signal = stock_env.iloc[k]['Sell']
                 hold_time = k - i
 
+                if is_moving_profit:
+                    stop_profit = stock_env.iloc[k]['Stop Profit']
+                if is_moving_loss:
+                    stop_loss = stock_env.iloc[k]['Stop Loss']
+
                 # Trigger Sell for case 2
                 if sell_tomorrow:
                     sell_price = current_open
@@ -74,7 +94,7 @@ class Backtest():
                     break
 
                 #Case 1: Stop Profit/ Loss trigger
-                if stop_profit and current_high >= stop_profit:
+                if stop_profit and current_high >= stop_profit and k != i+1: # Prevent Contradiction of Stop Profit and Buy Price
                     sell_price = stop_profit
                     trade_end = True
                     if verbose:

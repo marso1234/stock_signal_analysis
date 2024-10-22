@@ -49,7 +49,7 @@ def n_days_high(df, col, n, high=True):
 
 def pct_change_diff(df, col):
 
-    pct_change = df[col].pct_change()
+    pct_change = df[col].pct_change(fill_method=None)
     # Rate of rate of change
     df[f'pct_diff_{col}'] = pct_change - pct_change.shift(1)
 

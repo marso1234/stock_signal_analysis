@@ -2,7 +2,7 @@ import __init__
 from Strategy import Strategy
 import numpy as np
 from indicators.CommonIndicators import MACD, ema, atr, keltner_channel
-from script.strategy.CustomStrategiesFunction.CustomStrategyUtils import MA_phase
+from strategy.CustomStrategiesFunction.CustomStrategyUtils import MA_phase
 
 #Compare to the original strategy, this strategy wait for adjustment first, then buy
 class Strategy_MA_adjust(Strategy):

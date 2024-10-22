@@ -13,6 +13,7 @@ class Strategy_NR5(Strategy):
 
     def indicator_calculations(self, data):
         data['NR']=data['High'] - data['Low']
+        atr(data)
         return data
 
     def buy_signal(self, data):
